@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="EditorWindow">
+  <grid id="27dc6" binding="rootPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="900" height="900"/>
+    </constraints>
+    <properties>
+      <minimumSize width="900" height="900"/>
+      <preferredSize width="900" height="900"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <grid id="674ce" binding="usefulButtonPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+        <constraints border-constraint="North"/>
+        <properties>
+          <minimumSize width="0" height="150"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="28ac3" class="javax.swing.JButton" binding="undoButton">
+            <constraints/>
+            <properties>
+              <icon value="assets/undo-arrow.png"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="31d3" class="javax.swing.JButton" binding="redoButton">
+            <constraints/>
+            <properties>
+              <icon value="assets/redo_arrow.png"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="768fe" class="javax.swing.JButton" binding="playButton">
+            <constraints/>
+            <properties>
+              <icon value="assets/play.png"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="190d4" class="javax.swing.JButton" binding="addNewDBButton">
+            <constraints/>
+            <properties>
+              <font size="20" style="1"/>
+              <label value="+"/>
+              <text value="+"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <scrollpane id="29aa2" binding="tablesPanel">
+        <constraints border-constraint="West"/>
+        <properties>
+          <autoscrolls value="true"/>
+          <horizontalScrollBarPolicy value="30"/>
+          <maximumSize width="150" height="32767"/>
+          <minimumSize width="150" height="18"/>
+          <preferredSize width="200" height="37"/>
+          <verticalScrollBarPolicy value="22"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <grid id="4a711" binding="innerTablesPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+            <constraints/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="f0c89" class="javax.swing.JLabel" binding="noTablesLabel">
+                <constraints/>
+                <properties>
+                  <text value="No tables"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </scrollpane>
+      <tabbedpane id="b0e6d" binding="editorTabbedPanel">
+        <constraints border-constraint="Center"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <scrollpane id="577d" binding="codePanel">
+            <constraints>
+              <tabbedpane title="Code"/>
+            </constraints>
+            <properties>
+              <horizontalScrollBarPolicy value="32"/>
+              <verticalScrollBarPolicy value="22"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="9deee" class="javax.swing.JTextPane" binding="codeTextPanel">
+                <constraints/>
+                <properties>
+                  <font name="JetBrains Mono" size="16"/>
+                  <text value=""/>
+                </properties>
+              </component>
+            </children>
+          </scrollpane>
+          <scrollpane id="fd0a" binding="outputPanel">
+            <constraints>
+              <tabbedpane title="Output"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="726b8" class="javax.swing.JTextPane" binding="outputTextPanel">
+                <constraints/>
+                <properties/>
+              </component>
+            </children>
+          </scrollpane>
+        </children>
+      </tabbedpane>
+    </children>
+  </grid>
+</form>
