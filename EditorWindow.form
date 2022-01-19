@@ -60,14 +60,15 @@
         </properties>
         <border type="none"/>
         <children>
-          <grid id="4a711" binding="innerTablesPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+          <grid id="4a711" binding="innerTablesPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
             <constraints/>
             <properties/>
             <border type="none"/>
             <children>
               <component id="f0c89" class="javax.swing.JLabel" binding="noTablesLabel">
-                <constraints/>
+                <constraints border-constraint="Center"/>
                 <properties>
+                  <horizontalAlignment value="0"/>
                   <text value="No tables"/>
                 </properties>
               </component>
@@ -105,12 +106,7 @@
             </constraints>
             <properties/>
             <border type="none"/>
-            <children>
-              <component id="726b8" class="javax.swing.JTextPane" binding="outputTextPanel">
-                <constraints/>
-                <properties/>
-              </component>
-            </children>
+            <children/>
           </scrollpane>
         </children>
       </tabbedpane>

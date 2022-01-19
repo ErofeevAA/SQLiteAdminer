@@ -36,6 +36,3 @@ public class Keywords {
             "EXCLUDE", "FIRST", "GROUPS", "LAST", "MATERIALIZED", "NULLS", "OTHERS", "RETURNING", "TIES",
     };
 }
-/*
-
-*/

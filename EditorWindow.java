@@ -1,10 +1,15 @@
+import tableWindow.TableWindow;
 import utils.SQLRequests;
+import utils.TableModel;
 
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.text.StyleContext;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -17,7 +22,6 @@ public class EditorWindow extends JFrame {
     private JScrollPane codePanel;
     private JScrollPane outputPanel;
     private JTextPane codeTextPanel;
-    private JTextPane outputTextPanel;
     private JButton redoButton;
     private JButton playButton;
     private JButton undoButton;
@@ -44,6 +48,9 @@ public class EditorWindow extends JFrame {
             String pathToDB = file.getPath();
             System.out.println(pathToDB);
             sqlRequests = SQLRequests.getInstance();
+            if (!sqlRequests.isClosed()) {
+                sqlRequests.disconnect();
+            }
             sqlRequests.setDB(pathToDB);
             ArrayList<String> list = sqlRequests.getTables();
             if (list != null) {
@@ -58,18 +65,60 @@ public class EditorWindow extends JFrame {
         }
         String code = codeTextPanel.getText();
         if (code != null) {
-            sqlRequests.request(code);
+            try {
+                //outputPanel.removeAll();
+                TableModel tableModel = sqlRequests.request(code);
+                JTable jTable = new JTable(tableModel.data, tableModel.header);
+                outputPanel.setViewportView(jTable);
+            } catch (SQLException e) {
+                JLabel label = new JLabel(e.getMessage());
+                label.setHorizontalAlignment(SwingConstants.CENTER);
+                outputPanel.setViewportView(label);
+            }
+            editorTabbedPanel.setSelectedIndex(1);
+            outputPanel.repaint();
+            outputPanel.revalidate();
         }
     }
 
     private void fillTablesPanel(ArrayList<String> list) {
-        innerTablesPanel.remove(noTablesLabel);
-        for (String l : list) {
-            System.out.println(l);
-            Label label = new Label(l);
-            innerTablesPanel.add(label);
+        innerTablesPanel.removeAll();
+        if (list == null) {
+            innerTablesPanel.add(noTablesLabel);
+            innerTablesPanel.repaint();
+            innerTablesPanel.revalidate();
+            return;
         }
+        DefaultListModel<String> dlm = new DefaultListModel<>();
+        for (String l : list) {
+            dlm.addElement(l);
+        }
+        JList<String> tablesList = new JList<>(dlm);
+        tablesList.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent event) {
+                tablesListMouseClick(event);
+            }
+        });
+        innerTablesPanel.add(tablesList, BorderLayout.CENTER);
+        innerTablesPanel.repaint();
         innerTablesPanel.revalidate();
+    }
+
+    private void tablesListMouseClick(MouseEvent event) {
+        if (event.getClickCount() == 2) {
+            JList<String> list = (JList<String>) event.getSource();
+            int index = list.locationToIndex(event.getPoint());
+            String table = list.getModel().getElementAt(index);
+
+            final String req = "select * from " + table;
+            try {
+                TableModel tableModel = sqlRequests.request(req);
+                TableWindow tableWindow = new TableWindow(tableModel, table);
+                tableWindow.setVisible(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     {
@@ -122,11 +171,12 @@ public class EditorWindow extends JFrame {
         tablesPanel.setVerticalScrollBarPolicy(22);
         rootPanel.add(tablesPanel, BorderLayout.WEST);
         innerTablesPanel = new JPanel();
-        innerTablesPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        innerTablesPanel.setLayout(new BorderLayout(0, 0));
         tablesPanel.setViewportView(innerTablesPanel);
         noTablesLabel = new JLabel();
+        noTablesLabel.setHorizontalAlignment(0);
         noTablesLabel.setText("No tables");
-        innerTablesPanel.add(noTablesLabel);
+        innerTablesPanel.add(noTablesLabel, BorderLayout.CENTER);
         editorTabbedPanel = new JTabbedPane();
         rootPanel.add(editorTabbedPanel, BorderLayout.CENTER);
         codePanel = new JScrollPane();
@@ -140,8 +190,6 @@ public class EditorWindow extends JFrame {
         codePanel.setViewportView(codeTextPanel);
         outputPanel = new JScrollPane();
         editorTabbedPanel.addTab("Output", outputPanel);
-        outputTextPanel = new JTextPane();
-        outputPanel.setViewportView(outputTextPanel);
     }
 
     /**

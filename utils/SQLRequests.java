@@ -1,11 +1,10 @@
 package utils;
 
-;
-
 import org.sqlite.JDBC;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class SQLRequests {
 
@@ -30,34 +29,44 @@ public class SQLRequests {
         return instance;
     }
 
-    public boolean isConnect() {
-        return connection != null;
-    }
-
     public void setDB(String fullName) {
         try {
             connection = DriverManager.getConnection(BEGIN_URL + fullName);
-            if (connection != null) {
-                //
-            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public String request(String r) {
+    public TableModel request(String r) throws SQLException {
         if (r.charAt(r.length() - 1) != ';') {
             r += ";";
         }
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(r);
-            ResultSetMetaData data = resultSet.getMetaData();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(r);
+        ResultSetMetaData metaData = resultSet.getMetaData();
+
+        Vector<String> header = new Vector<>();
+        int columnCount = metaData.getColumnCount();
+
+        //from 1?!
+        for (int i = 1; i <= columnCount; ++i) {
+            header.add(metaData.getColumnName(i));
         }
 
-        return null;
+        Vector<Vector<String>> dataTable = new Vector<>();
+        while (resultSet.next()) {
+            Vector<String> row = new Vector<>();
+            for (int i = 1; i <= columnCount; ++i) {
+                Object o = resultSet.getObject(i);
+                row.add(String.valueOf(o));
+            }
+            dataTable.add(row);
+        }
+
+        TableModel tableModel = new TableModel();
+        tableModel.data = dataTable;
+        tableModel.header = header;
+        return tableModel;
     }
 
     public ArrayList<String> getTables() {
@@ -70,12 +79,13 @@ public class SQLRequests {
                 tables.add(set.getString("TABLE_NAME"));
             }
             set.close();
-            return tables;
-
+            if (tables.size() > 0) {
+                return tables;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     public void disconnect() {
@@ -85,5 +95,17 @@ public class SQLRequests {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean isClosed() {
+        if (connection == null) {
+            return true;
+        }
+        try {
+            return connection.isClosed();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 }
