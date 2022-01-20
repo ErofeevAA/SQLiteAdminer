@@ -1,4 +1,5 @@
 import tableWindow.TableWindow;
+import utils.CodeTextDocumentStyle;
 import utils.SQLRequests;
 import utils.TableModel;
 
@@ -35,7 +36,11 @@ public class EditorWindow extends JFrame {
         setContentPane(rootPanel);
         setSize(900, 900);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        CodeTextDocumentStyle codeTextDocumentStyle = new CodeTextDocumentStyle();
+        codeTextPanel.setStyledDocument(codeTextDocumentStyle);
 
+        undoButton.addActionListener(actionEvent -> codeTextDocumentStyle.undo());
+        redoButton.addActionListener(actionEvent -> codeTextDocumentStyle.redo());
         addNewDBButton.addActionListener(actionEvent -> clickAddNewDB());
         playButton.addActionListener(actionEvent -> clickPlay());
     }
@@ -184,7 +189,7 @@ public class EditorWindow extends JFrame {
         codePanel.setVerticalScrollBarPolicy(22);
         editorTabbedPanel.addTab("Code", codePanel);
         codeTextPanel = new JTextPane();
-        Font codeTextPanelFont = this.$$$getFont$$$("JetBrains Mono", -1, 16, codeTextPanel.getFont());
+        Font codeTextPanelFont = this.$$$getFont$$$("DejaVu Sans Mono", -1, 16, codeTextPanel.getFont());
         if (codeTextPanelFont != null) codeTextPanel.setFont(codeTextPanelFont);
         codeTextPanel.setText("");
         codePanel.setViewportView(codeTextPanel);

@@ -94,7 +94,7 @@
               <component id="9deee" class="javax.swing.JTextPane" binding="codeTextPanel">
                 <constraints/>
                 <properties>
-                  <font name="JetBrains Mono" size="16"/>
+                  <font name="DejaVu Sans Mono" size="16"/>
                   <text value=""/>
                 </properties>
               </component>
