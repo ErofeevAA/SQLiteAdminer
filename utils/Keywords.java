@@ -22,17 +22,12 @@ public class Keywords {
     };
 
     public static final String[]  funcWords = {
-            "ABS", "AVG", "CAST", "COUNT", "CHANGES", "CHAR", "COALESCE", "CURRENT_DATE", "CURRENT_TIME",
-            "CURRENT_TIMESTAMP", "DATE", "DATETIME", "GLOB", "GROUP_CONCAT", "HEX", "JULIANDAY", "IFNULL", "INSTR",
-            "IIF", "LAST_INSERT_ROWID", "LENGTH", "LIKE", "LIKELY", "LOAD_EXTENSION", "LOWER", "LTRIM", "MAX", "MIN",
-            "NULLIF", "PRINTF", "QUOTE", "RANDOM", "RANDOMBLOB", "REPLACE", "ROUND", "RTRIM", "SOUNDEX", "SUM",
+            "ABS", "AVG", "CAST", "CHANGES", "CHAR", "COALESCE", "COUNT", "CURRENT_DATE", "CURRENT_TIME",
+            "CURRENT_TIMESTAMP", "DATE", "DATETIME", "GLOB", "GROUP_CONCAT", "HEX", "IFNULL", "IIF", "INSTR",
+            "JULIANDAY", "LAST_INSERT_ROWID", "LENGTH", "LIKE", "LIKELY", "LOAD_EXTENSION", "LOWER", "LTRIM", "MAX",
+            "MIN", "NULLIF", "PRINTF", "QUOTE", "RANDOM", "RANDOMBLOB", "REPLACE", "ROUND", "RTRIM", "SOUNDEX",
             "SQLITE_COMPILEOPTION_GET", "SQLITE_COMPILEOPTION_USED", "SQLITE_OFFSET", "SQLITE_SOURCE_ID",
-            "SQLITE_VERSION", "STRFTIME", "SUBSTR", "TOTAL_CHANGED", "TIME", "TRIM", "TYPEOF", "UNICODE", "UNLIKELY",
-            "UPPER", "ZEROBLOB",
-    };
-
-
-    public static final String[] otherWords = {
-            "EXCLUDE", "FIRST", "GROUPS", "LAST", "MATERIALIZED", "NULLS", "OTHERS", "RETURNING", "TIES",
+            "SQLITE_VERSION", "STRFTIME", "SUBSTR", "SUM", "TIME", "TOTAL_CHANGED", "TRIM", "TYPEOF", "UNICODE",
+            "UNLIKELY", "UPPER", "ZEROBLOB",
     };
 }
