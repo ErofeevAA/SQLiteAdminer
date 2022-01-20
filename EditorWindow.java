@@ -1,3 +1,6 @@
+import customComponent.CustomList;
+import customComponent.CustomTable;
+import customComponent.ErrorLabel;
 import tableWindow.TableWindow;
 import utils.CodeTextDocumentStyle;
 import utils.SQLRequests;
@@ -73,16 +76,20 @@ public class EditorWindow extends JFrame {
             try {
                 //outputPanel.removeAll();
                 TableModel tableModel = sqlRequests.request(code);
-                JTable jTable = new JTable(tableModel.data, tableModel.header);
+                CustomTable jTable = new CustomTable(tableModel);
                 outputPanel.setViewportView(jTable);
             } catch (SQLException e) {
-                JLabel label = new JLabel(e.getMessage());
-                label.setHorizontalAlignment(SwingConstants.CENTER);
+                ErrorLabel label = new ErrorLabel(e.getMessage());
                 outputPanel.setViewportView(label);
             }
             editorTabbedPanel.setSelectedIndex(1);
             outputPanel.repaint();
             outputPanel.revalidate();
+
+            ArrayList<String> list = sqlRequests.getTables();
+            if (list != null) {
+                fillTablesPanel(list);
+            }
         }
     }
 
@@ -98,7 +105,7 @@ public class EditorWindow extends JFrame {
         for (String l : list) {
             dlm.addElement(l);
         }
-        JList<String> tablesList = new JList<>(dlm);
+        CustomList tablesList = new CustomList(dlm);
         tablesList.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent event) {
                 tablesListMouseClick(event);

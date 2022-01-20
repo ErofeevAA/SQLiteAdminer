@@ -1,5 +1,6 @@
 package tableWindow;
 
+import customComponent.CustomTable;
 import utils.TableModel;
 
 import javax.swing.*;
@@ -14,7 +15,7 @@ public class TableWindow extends JFrame {
         setContentPane(rootPanel);
         setTitle(title);
 
-        JTable table = new JTable(tableModel.data, tableModel.header);
+        CustomTable table = new CustomTable(tableModel);
         scrollPane.setViewportView(table);
     }
 
