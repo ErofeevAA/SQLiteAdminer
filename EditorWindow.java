@@ -76,7 +76,10 @@ public class EditorWindow extends JFrame {
         if (sqlRequests == null) {
             return;
         }
-        String code = codeTextPanel.getText();
+        String code = codeTextPanel.getSelectedText();
+        if (code == null) {
+         code = codeTextPanel.getText();
+        }
         if (!code.equals("")) {
             try {
                 //outputPanel.removeAll();
