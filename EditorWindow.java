@@ -21,7 +21,7 @@ public class EditorWindow extends JFrame {
 
     private JPanel rootPanel;
     private JPanel usefulButtonPanel;
-    private JScrollPane tablesPanel;
+    private JPanel tablesPanel;
     private JTabbedPane editorTabbedPanel;
     private JScrollPane codePanel;
     private JScrollPane outputPanel;
@@ -30,8 +30,10 @@ public class EditorWindow extends JFrame {
     private JButton playButton;
     private JButton undoButton;
     private JButton addNewDBButton;
-    private JPanel innerTablesPanel;
+    private JScrollPane scrollTablesPanel;
     private JLabel noTablesLabel;
+    private JLabel connectStateLabel;
+    private JPanel innerTablesPanel;
 
     private SQLRequests sqlRequests = null;
 
@@ -55,6 +57,7 @@ public class EditorWindow extends JFrame {
             File file = chooser.getSelectedFile();
             String pathToDB = file.getPath();
             System.out.println(pathToDB);
+            connectStateLabel.setText("Connect to " + file.getName());
             sqlRequests = SQLRequests.getInstance();
             if (!sqlRequests.isClosed()) {
                 sqlRequests.disconnect();
@@ -64,6 +67,8 @@ public class EditorWindow extends JFrame {
             if (list != null) {
                 fillTablesPanel(list);
             }
+
+            playButton.setEnabled(true);
         }
     }
 
@@ -72,7 +77,7 @@ public class EditorWindow extends JFrame {
             return;
         }
         String code = codeTextPanel.getText();
-        if (code != null) {
+        if (!code.equals("")) {
             try {
                 //outputPanel.removeAll();
                 TableModel tableModel = sqlRequests.request(code);
@@ -111,7 +116,7 @@ public class EditorWindow extends JFrame {
                 tablesListMouseClick(event);
             }
         });
-        innerTablesPanel.add(tablesList, BorderLayout.CENTER);
+        innerTablesPanel.add(tablesList);
         innerTablesPanel.repaint();
         innerTablesPanel.revalidate();
     }
@@ -165,6 +170,7 @@ public class EditorWindow extends JFrame {
         redoButton.setText("");
         usefulButtonPanel.add(redoButton);
         playButton = new JButton();
+        playButton.setEnabled(false);
         playButton.setIcon(new ImageIcon(getClass().getResource("/assets/play.png")));
         playButton.setText("");
         usefulButtonPanel.add(playButton);
@@ -174,17 +180,25 @@ public class EditorWindow extends JFrame {
         addNewDBButton.setLabel("+");
         addNewDBButton.setText("+");
         usefulButtonPanel.add(addNewDBButton);
-        tablesPanel = new JScrollPane();
-        tablesPanel.setAutoscrolls(true);
-        tablesPanel.setHorizontalScrollBarPolicy(30);
+        tablesPanel = new JPanel();
+        tablesPanel.setLayout(new BorderLayout(0, 0));
         tablesPanel.setMaximumSize(new Dimension(150, 32767));
         tablesPanel.setMinimumSize(new Dimension(150, 18));
         tablesPanel.setPreferredSize(new Dimension(200, 37));
-        tablesPanel.setVerticalScrollBarPolicy(22);
         rootPanel.add(tablesPanel, BorderLayout.WEST);
+        connectStateLabel = new JLabel();
+        Font connectStateLabelFont = this.$$$getFont$$$("SansSerif", Font.BOLD, 14, connectStateLabel.getFont());
+        if (connectStateLabelFont != null) connectStateLabel.setFont(connectStateLabelFont);
+        connectStateLabel.setHorizontalAlignment(0);
+        connectStateLabel.setHorizontalTextPosition(0);
+        connectStateLabel.setText("No connect");
+        tablesPanel.add(connectStateLabel, BorderLayout.NORTH);
+        scrollTablesPanel = new JScrollPane();
+        scrollTablesPanel.setVerticalScrollBarPolicy(22);
+        tablesPanel.add(scrollTablesPanel, BorderLayout.CENTER);
         innerTablesPanel = new JPanel();
         innerTablesPanel.setLayout(new BorderLayout(0, 0));
-        tablesPanel.setViewportView(innerTablesPanel);
+        scrollTablesPanel.setViewportView(innerTablesPanel);
         noTablesLabel = new JLabel();
         noTablesLabel.setHorizontalAlignment(0);
         noTablesLabel.setText("No tables");

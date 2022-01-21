@@ -34,6 +34,7 @@
           <component id="768fe" class="javax.swing.JButton" binding="playButton">
             <constraints/>
             <properties>
+              <enabled value="false"/>
               <icon value="assets/play.png"/>
               <text value=""/>
             </properties>
@@ -48,34 +49,49 @@
           </component>
         </children>
       </grid>
-      <scrollpane id="29aa2" binding="tablesPanel">
+      <grid id="29aa2" binding="tablesPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
         <constraints border-constraint="West"/>
         <properties>
-          <autoscrolls value="true"/>
-          <horizontalScrollBarPolicy value="30"/>
           <maximumSize width="150" height="32767"/>
           <minimumSize width="150" height="18"/>
           <preferredSize width="200" height="37"/>
-          <verticalScrollBarPolicy value="22"/>
         </properties>
         <border type="none"/>
         <children>
-          <grid id="4a711" binding="innerTablesPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
-            <constraints/>
-            <properties/>
+          <component id="91e3e" class="javax.swing.JLabel" binding="connectStateLabel">
+            <constraints border-constraint="North"/>
+            <properties>
+              <font name="SansSerif" size="14" style="1"/>
+              <horizontalAlignment value="0"/>
+              <horizontalTextPosition value="0"/>
+              <text value="No connect"/>
+            </properties>
+          </component>
+          <scrollpane id="f6f27" binding="scrollTablesPanel">
+            <constraints border-constraint="Center"/>
+            <properties>
+              <verticalScrollBarPolicy value="22"/>
+            </properties>
             <border type="none"/>
             <children>
-              <component id="f0c89" class="javax.swing.JLabel" binding="noTablesLabel">
-                <constraints border-constraint="Center"/>
-                <properties>
-                  <horizontalAlignment value="0"/>
-                  <text value="No tables"/>
-                </properties>
-              </component>
+              <grid id="f269d" binding="innerTablesPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+                <constraints/>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="cf1b9" class="javax.swing.JLabel" binding="noTablesLabel">
+                    <constraints border-constraint="Center"/>
+                    <properties>
+                      <horizontalAlignment value="0"/>
+                      <text value="No tables"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
             </children>
-          </grid>
+          </scrollpane>
         </children>
-      </scrollpane>
+      </grid>
       <tabbedpane id="b0e6d" binding="editorTabbedPanel">
         <constraints border-constraint="Center"/>
         <properties/>
